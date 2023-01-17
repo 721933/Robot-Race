@@ -7,17 +7,18 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Main {
+	private static JFrame GUI = new JFrame();
+	private static Container pane = GUI.getContentPane();
+	private static GridPanel gridPanel;
+	
   public static void main(String[] args) {
-    JFrame GUI = new JFrame();
-
-    GUI.setTitle("Robot Race");
+		GUI.setTitle("Robot Race");
     GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
   	setIcon(GUI);
-
-    Container pane = GUI.getContentPane();
-    GridPanel panel = new GridPanel();
-    pane.add(panel);
+		
+		IntroPanel introPanel = new IntroPanel();
+		pane.add(introPanel);
 		
     GUI.pack();
     GUI.setVisible(true);
@@ -34,4 +35,13 @@ public class Main {
 		
     GUI.setIconImage(icon);
   }
+
+	public static void removeIntroPanel(IntroPanel introPanel, int gridSize) {
+		pane.remove(introPanel);
+		gridPanel = new GridPanel(gridSize);
+
+		pane.add(gridPanel);
+
+		GUI.pack();
+	}
 }

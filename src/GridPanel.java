@@ -11,55 +11,69 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GridPanel extends JPanel {
-    private Tile[][] grid = new Tile[4][4];
-    private JLabel background;
+	private int gridSize;
+  private Tile[][] grid;
+  private JLabel background;
 
-    public GridPanel() {
-      super();
-      this.setBackground(Color.black);
-      this.setLayout(new GridBagLayout());
+  public GridPanel(int gridSize) {
+    super();
+		this.gridSize = gridSize;
+		this.grid = new Tile[gridSize][gridSize];
+    this.setBackground(Color.black);
+    this.setLayout(new GridBagLayout());
 
-      background = background();
-      background.setBounds(0, 0, 500, 500);
-      add(background);
+    background = background();
+    background.setBounds(0, 0, 1280, 720);
+    add(background);
+		generateGrid();
 
-      KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
-      	@Override
-      	public boolean dispatchKeyEvent(KeyEvent e) {
-          if (KeyEvent.KEY_PRESSED == e.getID()) {
-						switch (e.getKeyCode()) {
-							case 32:	//Spacebar
-								
-								break;
-							case 80:	//P
-								
-								break;
-						}
-          }
-          return true;
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+      @Override
+      public boolean dispatchKeyEvent(KeyEvent e) {
+        if (KeyEvent.KEY_PRESSED == e.getID()) {
+					switch (e.getKeyCode()) {
+						case 32:	//Spacebar
+							
+							break;
+					}
         }
-      });
-    }
+      	return true;
+      }
+    });
+  }
 
-    private void updateGrid() {
-      for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-          if (grid[i][j] != null) {
-            grid[i][j].setBounds(13 + (92 * i), 13 + (92 * j), 80, 80);
-          }
-        }
+	private void generateGrid() {
+		grid[0][0] = new Tile(Type.Start);
+		grid[gridSize][gridSize] = new Tile(Type.End);
+		
+		for (int i = 0; i < gridSize; i++) {
+      for (int j = 0; j < gridSize; j++) {
+				if (grid[i][j] == null) {
+					grid[i][j] = new Tile(Type.Unknown);
+				}
       }
     }
 
-    private static JLabel background() {
-        JLabel background = new JLabel();
+		updateGrid();
+	}
 
-        try {
-            background.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/background.png"))));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	private void updateGrid() {
+  	for (int i = 0; i < gridSize; i++) {
+      for (int j = 0; j < gridSize; j++) {
+        grid[i][j].setBounds(13 + (92 * i), 13 + (92 * j), 35, 35);
+      }
+    }
+  }
 
-        return background;
-    } 
+  private static JLabel background() {
+    JLabel background = new JLabel();
+
+    try {
+      background.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/background.png"))));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return background;
+  }
 }
