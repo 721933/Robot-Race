@@ -31,9 +31,18 @@ public class GridPanel extends JPanel {
       @Override
       public boolean dispatchKeyEvent(KeyEvent e) {
         if (KeyEvent.KEY_PRESSED == e.getID()) {
-					switch (e.getKeyCode()) {
+          int k = e.getKeyCode();
+					switch (k) {
 						case 32:	//Spacebar
-							
+              for (int i = 0; i < gridSize; i++) {
+                for (int j = 0; j < gridSize; j++) {
+                  if (grid[i][j].getType().equals(Type.UnknownSolid) || grid[i][j].getType().equals(Type.UnknownLiquid)) {
+                    grid[i][j].reveal();
+                  }
+                }
+
+                updateGrid();
+              }
 							break;
 					}
         }
@@ -49,16 +58,14 @@ public class GridPanel extends JPanel {
 		for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
 				if (grid[i][j] == null) {
-					grid[i][j] = new Tile(Type.Unknown);
+          if (Math.random() > .7) {
+            grid[i][j] = new Tile(Type.UnknownSolid);
+          } else {
+            grid[i][j] = new Tile(Type.UnknownLiquid);
+          }
 				}
 
         background.add(grid[i][j]);
-      }
-    }
-
-    for (int i = 0; i < gridSize; i++) {
-      for (int j = 0; j < gridSize; j++) {
-        
       }
     }
 
@@ -67,7 +74,7 @@ public class GridPanel extends JPanel {
 
 	private void updateGrid() {
     int spacing = 80;
-    int initialGap = 100;
+    int initialGap = 130;
     switch (gridSize) {
       case 10:
         spacing = 60;

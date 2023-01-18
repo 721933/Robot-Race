@@ -3,5 +3,6 @@ public enum Type {
 	Liquid,
 	Start,
 	End,
-	Unknown
+	UnknownSolid,
+	UnknownLiquid
 }

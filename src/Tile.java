@@ -50,6 +50,16 @@ public class Tile extends JLabel {
 	  }
 	}
 
+  public void reveal() {
+    if (this.type.equals(Type.UnknownLiquid)) {
+      setType(Type.Liquid);
+    } else if (this.type.equals(Type.UnknownSolid)) {
+      setType(Type.Solid);
+    }
+
+    return;
+  }
+
 	private static HashMap<Type, Image> generateHashmap() {
 		HashMap<Type, Image> map = new HashMap<Type, Image>();
 
@@ -83,7 +93,14 @@ public class Tile extends JLabel {
 
 		try {
       Image image = ImageIO.read(new File("images/unknown.png"));
-      map.put(Type.Unknown, image);
+      map.put(Type.UnknownSolid, image);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    try {
+      Image image = ImageIO.read(new File("images/unknown.png"));
+      map.put(Type.UnknownLiquid, image);
     } catch (IOException e) {
       e.printStackTrace();
     }
