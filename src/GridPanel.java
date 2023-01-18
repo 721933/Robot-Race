@@ -25,7 +25,7 @@ public class GridPanel extends JPanel {
     background = background();
     background.setBounds(0, 0, 1280, 720);
     add(background);
-		//generateGrid();
+		generateGrid();
 
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
       @Override
@@ -44,13 +44,21 @@ public class GridPanel extends JPanel {
 
 	private void generateGrid() {
 		grid[0][0] = new Tile(Type.Start);
-		grid[gridSize][gridSize] = new Tile(Type.End);
+		grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
 		
 		for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
 				if (grid[i][j] == null) {
 					grid[i][j] = new Tile(Type.Unknown);
 				}
+
+        background.add(grid[i][j]);
+      }
+    }
+
+    for (int i = 0; i < gridSize; i++) {
+      for (int j = 0; j < gridSize; j++) {
+        
       }
     }
 
@@ -58,9 +66,22 @@ public class GridPanel extends JPanel {
 	}
 
 	private void updateGrid() {
+    int spacing = 80;
+    int initialGap = 100;
+    switch (gridSize) {
+      case 10:
+        spacing = 60;
+        initialGap = 10;
+        break;
+      case 15:
+        spacing = 40;
+        initialGap = 2;
+        break;
+    }
+
   	for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
-        grid[i][j].setBounds(13 + (92 * i), 13 + (92 * j), 35, 35);
+        grid[i][j].setBounds(initialGap + (spacing * i), initialGap + (spacing * j), 35, 35);
       }
     }
   }
