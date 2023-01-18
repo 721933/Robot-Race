@@ -25,7 +25,7 @@ public class GridPanel extends JPanel {
     background = background();
     background.setBounds(0, 0, 1280, 720);
     add(background);
-		generateGrid();
+		//generateGrid();
 
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
       @Override
