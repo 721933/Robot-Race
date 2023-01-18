@@ -3,3 +3,7 @@ public class Robot {
 
 	}
 }
+
+class LocalMap {
+	
+}
