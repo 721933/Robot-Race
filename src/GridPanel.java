@@ -58,7 +58,7 @@ public class GridPanel extends JPanel {
 		for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
 				if (grid[i][j] == null) {
-          if (Math.random() > .9) {
+          if (Math.random() > .8) {
             grid[i][j] = new Tile(Type.UnknownSolid);
           } else {
             grid[i][j] = new Tile(Type.UnknownLiquid);
