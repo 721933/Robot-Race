@@ -27,12 +27,13 @@ public class GridPanel extends JPanel {
     add(background);
 		generateGrid();
 
+    Robot robot = new Robot(grid);
+
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
       @Override
       public boolean dispatchKeyEvent(KeyEvent e) {
         if (KeyEvent.KEY_PRESSED == e.getID()) {
-          int k = e.getKeyCode();
-					switch (k) {
+					switch (e.getKeyCode()) {
 						case 32:	//Spacebar
               for (int i = 0; i < gridSize; i++) {
                 for (int j = 0; j < gridSize; j++) {
@@ -44,6 +45,9 @@ public class GridPanel extends JPanel {
                 updateGrid();
               }
 							break;
+            case 10:
+              robot.vision.getDown().reveal();
+              break;
 					}
         }
       	return true;
