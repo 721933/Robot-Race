@@ -58,8 +58,8 @@ public class GridPanel extends JPanel {
 	private void generateGrid() {
 		grid[0][0] = new Tile(Type.Start);
 		grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
-		
-		for (int i = 0; i < gridSize; i++) {
+
+    for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
 				if (grid[i][j] == null) {
           if (Math.random() > .8) {
@@ -70,6 +70,66 @@ public class GridPanel extends JPanel {
 				}
 
         background.add(grid[i][j]);
+      }
+    }
+
+    int m = 0;
+    int n = 0;
+
+    while (!grid[m][n].getType().equals(Type.End)) {
+      switch ((int) (Math.round(Math.random()))) {
+        case 0: //Down
+          try {
+            if (grid[m + 1][n].getType().equals(Type.End)) {
+              break;
+            }
+
+            grid[m + 1][n].setType(Type.UnknownLiquid);
+            m = m + 1;
+          } catch (IndexOutOfBoundsException e) {
+
+          }
+
+          break;
+        case 3: //Up
+          if (grid[m - 1][n].getType().equals(Type.End)) {
+            break;
+          }
+
+          try {
+            grid[m - 1][n].setType(Type.UnknownLiquid);
+            m = m - 1;
+          } catch (IndexOutOfBoundsException e) {
+
+          }
+
+          break;
+        case 2: //Left
+          if (grid[m][n - 1].getType().equals(Type.End)) {
+            break;
+          }
+
+          try {
+            grid[m][n - 1].setType(Type.UnknownLiquid);
+            n = n - 1;
+          } catch (IndexOutOfBoundsException e) {
+
+          }
+
+          break;
+        case 1: //Right
+          if (grid[m][n + 1].getType().equals(Type.End)) {
+            break;
+          }
+
+          try {
+            grid[m][n + 1].setType(Type.UnknownLiquid);
+            n = n + 1;
+          } catch (IndexOutOfBoundsException e) {
+
+          }
+
+          break;
       }
     }
 
