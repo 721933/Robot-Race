@@ -1,12 +1,14 @@
 import java.awt.Color;
 import java.awt.GridBagLayout;
+import java.awt.KeyEventDispatcher;
+import java.awt.KeyboardFocusManager;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.awt.KeyboardFocusManager;
-import java.awt.KeyEventDispatcher;
-import java.awt.event.KeyEvent;
+import java.awt.HeadlessException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -39,6 +41,11 @@ public class GridPanel extends JPanel {
               break;
             case 10: // Enter
               robot.revealAround();
+              break;
+            case 83: // S
+              importMap();
+              break;
+            case 79: // O
               break;
           }
         }
@@ -204,5 +211,12 @@ public class GridPanel extends JPanel {
 
       updateGrid();
     }
+  }
+
+  private void importMap() {
+    JFileChooser fileChooser = new JFileChooser();
+    File selectedFile = null;
+    fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+    int result = fileChooser.showOpenDialog(this);
   }
 }

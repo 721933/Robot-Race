@@ -62,7 +62,7 @@ public class Robot extends JPanel {
 	}
 
 	public void move() {
-
+		steps++;
 	}
 
 	public void revealAround() {
