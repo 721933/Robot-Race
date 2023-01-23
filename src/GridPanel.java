@@ -5,7 +5,6 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.awt.HeadlessException;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -218,5 +217,6 @@ public class GridPanel extends JPanel {
     File selectedFile = null;
     fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
     int result = fileChooser.showOpenDialog(this);
+    System.out.println();
   }
 }
