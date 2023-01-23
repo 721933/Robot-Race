@@ -35,19 +35,10 @@ public class GridPanel extends JPanel {
         if (KeyEvent.KEY_PRESSED == e.getID()) {
           switch (e.getKeyCode()) {
             case 32: // Spacebar
-              for (int i = 0; i < gridSize; i++) {
-                for (int j = 0; j < gridSize; j++) {
-                  if (grid[i][j].getType().equals(Type.UnknownSolid)
-                      || grid[i][j].getType().equals(Type.UnknownLiquid)) {
-                    grid[i][j].reveal();
-                  }
-                }
-
-                updateGrid();
-              }
+              revealGrid();
               break;
-            case 10:
-              robot.vision.getDown().reveal();
+            case 10: // Enter
+              robot.revealAround();
               break;
           }
         }
@@ -57,13 +48,12 @@ public class GridPanel extends JPanel {
   }
 
   private void generateGrid() {
-    grid[0][0] = new Tile(Type.Start);
     grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
 
     for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
         if (grid[i][j] == null) {
-          if (Math.random() > 0) {
+          if (Math.random() > .2) {
             grid[i][j] = new Tile(Type.UnknownSolid);
           } else {
             grid[i][j] = new Tile(Type.UnknownLiquid);
@@ -165,6 +155,8 @@ public class GridPanel extends JPanel {
       }
     }
 
+    grid[0][0].setType(Type.Start);
+
     updateGrid();
   }
 
@@ -199,5 +191,18 @@ public class GridPanel extends JPanel {
     }
 
     return background;
+  }
+
+  private void revealGrid() {
+    for (int i = 0; i < gridSize; i++) {
+      for (int j = 0; j < gridSize; j++) {
+        if (grid[i][j].getType().equals(Type.UnknownSolid)
+            || grid[i][j].getType().equals(Type.UnknownLiquid)) {
+          grid[i][j].reveal();
+        }
+      }
+
+      updateGrid();
+    }
   }
 }
