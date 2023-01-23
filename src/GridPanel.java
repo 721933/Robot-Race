@@ -2,9 +2,14 @@ import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
+import java.awt.DefaultKeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -12,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GridPanel extends JPanel {
+  private KeyEventDispatcher gameKeys;
   private int gridSize;
   private Tile[][] grid;
   private JLabel background;
@@ -30,7 +36,7 @@ public class GridPanel extends JPanel {
 
     Robot robot = new Robot(grid);
 
-    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+    gameKeys = new KeyEventDispatcher() {
       @Override
       public boolean dispatchKeyEvent(KeyEvent e) {
         if (KeyEvent.KEY_PRESSED == e.getID()) {
@@ -45,12 +51,15 @@ public class GridPanel extends JPanel {
               importMap();
               break;
             case 79: // O
+              exportMap();
               break;
           }
         }
         return true;
       }
-    });
+    };
+
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeys);
   }
 
   private void generateGrid() {
@@ -213,10 +222,36 @@ public class GridPanel extends JPanel {
   }
 
   private void importMap() {
+    KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
     JFileChooser fileChooser = new JFileChooser();
-    File selectedFile = null;
     fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
     int result = fileChooser.showOpenDialog(this);
-    System.out.println();
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeys);
+  }
+
+  private void exportMap() {
+    KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
+    try {
+      serializeMap();
+    } catch (IOException e) {
+
+    }
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setSelectedFile(new File("map.txt"));
+    fileChooser.showSaveDialog(this);
+    KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeys);
+  }
+
+  private void serializeMap() throws IOException {
+    File file = new File("map.txt");
+    FileOutputStream fos = new FileOutputStream(file);
+    ObjectOutputStream oos = new ObjectOutputStream(fos);
+    oos.writeObject(grid);
+
+    oos.close();
+  }
+
+  private void deserializeMap() {
+
   }
 }
