@@ -60,49 +60,10 @@ public class GridPanel extends JPanel {
     grid[0][0] = new Tile(Type.Start);
     grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
 
-    int x = 0;
-    int y = 0;
-    int m = 0;
-    int n = 0;
-
-    while (!grid[x][y].getType().equals(Type.End)) {
-      int k = (int) Math.round(Math.random() * 23);
-
-      if (10 > k && k >= 0) { // Down
-        try {
-          n = y + 1;
-          if (!(x == m && n == y)) {
-            y = n;
-            n = n - 1;
-          }
-
-          grid[x][y] = new Tile(Type.UnknownLiquid);
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-      } else if (20 > k && k >= 10) { // Right
-        try {
-          m = x + 1;
-          if (!(x == m && n == y)) {
-            x = m;
-            m = m - 1;
-          }
-
-          grid[x][y] = new Tile(Type.UnknownLiquid);
-        } catch (IndexOutOfBoundsException e) {
-
-        }
-      } else if (22 > k && k >= 20) { // Up
-
-      } else if (24 > k && k >= 22) { // Left
-
-      }
-    }
-
     for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
         if (grid[i][j] == null) {
-          if (Math.random() > .8) {
+          if (Math.random() > 0) {
             grid[i][j] = new Tile(Type.UnknownSolid);
           } else {
             grid[i][j] = new Tile(Type.UnknownLiquid);
@@ -113,60 +74,94 @@ public class GridPanel extends JPanel {
       }
     }
 
-    while (!grid[m][n].getType().equals(Type.End)) {
-      switch ((int) (Math.round(Math.random()))) {
-        case 0: // Down
-          try {
-            if (grid[m + 1][n].getType().equals(Type.End)) {
-              break;
-            }
+    int x = 0;
+    int y = 0;
+    int m = -1;
+    int n = -1;
 
-            grid[m + 1][n].setType(Type.UnknownLiquid);
-            m = m + 1;
-          } catch (IndexOutOfBoundsException e) {
+    while (!grid[x][y].getType().equals(Type.End)) {
+      int k = (int) Math.round(Math.random() * 23);
 
-          }
+      if (10 > k && k >= 0) { // Down
+        try {
+          y = y + 1;
 
-          break;
-        case 3: // Up
-          if (grid[m - 1][n].getType().equals(Type.End)) {
+          if (grid[x][y].getType().equals(Type.End)) {
             break;
           }
 
-          try {
-            grid[m - 1][n].setType(Type.UnknownLiquid);
-            m = m - 1;
-          } catch (IndexOutOfBoundsException e) {
+          if (!(x == m && n == y)) {
+            m = x;
+            n = y;
 
+            grid[x][y].setType(Type.UnknownLiquid);
+          } else {
+            y = y - 1;
           }
 
-          break;
-        case 2: // Left
-          if (grid[m][n - 1].getType().equals(Type.End)) {
+        } catch (IndexOutOfBoundsException e) {
+          y = y - 1;
+        }
+      } else if (20 > k && k >= 10) { // Right
+        try {
+          x = x + 1;
+
+          if (grid[x][y].getType().equals(Type.End)) {
             break;
           }
 
-          try {
-            grid[m][n - 1].setType(Type.UnknownLiquid);
-            n = n - 1;
-          } catch (IndexOutOfBoundsException e) {
+          if (!(x == m && n == y)) {
+            m = x;
+            n = y;
 
+            grid[x][y].setType(Type.UnknownLiquid);
+          } else {
+            x = x - 1;
           }
 
-          break;
-        case 1: // Right
-          if (grid[m][n + 1].getType().equals(Type.End)) {
+        } catch (IndexOutOfBoundsException e) {
+          x = x - 1;
+        }
+      } else if (22 > k && k >= 20) { // Up
+        try {
+          y = y - 1;
+
+          if (grid[x][y].getType().equals(Type.End)) {
             break;
           }
 
-          try {
-            grid[m][n + 1].setType(Type.UnknownLiquid);
-            n = n + 1;
-          } catch (IndexOutOfBoundsException e) {
+          if (!(x == m && n == y)) {
+            m = x;
+            n = y;
 
+            grid[x][y].setType(Type.UnknownLiquid);
+          } else {
+            y = y + 1;
           }
 
-          break;
+        } catch (IndexOutOfBoundsException e) {
+          y = y + 1;
+        }
+      } else if (24 > k && k >= 22) { // Left
+        try {
+          x = x - 1;
+
+          if (grid[x][y].getType().equals(Type.End)) {
+            break;
+          }
+
+          if (!(x == m && n == y)) {
+            m = x;
+            n = y;
+
+            grid[x][y].setType(Type.UnknownLiquid);
+          } else {
+            x = x + 1;
+          }
+
+        } catch (IndexOutOfBoundsException e) {
+          x = x + 1;
+        }
       }
     }
 
