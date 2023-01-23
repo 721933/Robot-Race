@@ -11,21 +11,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GridPanel extends JPanel {
-	private int gridSize;
+  private int gridSize;
   private Tile[][] grid;
   private JLabel background;
 
   public GridPanel(int gridSize) {
     super();
-		this.gridSize = gridSize;
-		this.grid = new Tile[gridSize][gridSize];
+    this.gridSize = gridSize;
+    this.grid = new Tile[gridSize][gridSize];
     this.setBackground(Color.black);
     this.setLayout(new GridBagLayout());
 
     background = background();
     background.setBounds(0, 0, 1280, 720);
     add(background);
-		generateGrid();
+    generateGrid();
 
     Robot robot = new Robot(grid);
 
@@ -33,52 +33,89 @@ public class GridPanel extends JPanel {
       @Override
       public boolean dispatchKeyEvent(KeyEvent e) {
         if (KeyEvent.KEY_PRESSED == e.getID()) {
-					switch (e.getKeyCode()) {
-						case 32:	//Spacebar
+          switch (e.getKeyCode()) {
+            case 32: // Spacebar
               for (int i = 0; i < gridSize; i++) {
                 for (int j = 0; j < gridSize; j++) {
-                  if (grid[i][j].getType().equals(Type.UnknownSolid) || grid[i][j].getType().equals(Type.UnknownLiquid)) {
+                  if (grid[i][j].getType().equals(Type.UnknownSolid)
+                      || grid[i][j].getType().equals(Type.UnknownLiquid)) {
                     grid[i][j].reveal();
                   }
                 }
 
                 updateGrid();
               }
-							break;
+              break;
             case 10:
               robot.vision.getDown().reveal();
               break;
-					}
+          }
         }
-      	return true;
+        return true;
       }
     });
   }
 
-	private void generateGrid() {
-		grid[0][0] = new Tile(Type.Start);
-		grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
+  private void generateGrid() {
+    grid[0][0] = new Tile(Type.Start);
+    grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
+
+    int x = 0;
+    int y = 0;
+    int m = 0;
+    int n = 0;
+
+    while (!grid[x][y].getType().equals(Type.End)) {
+      int k = (int) Math.round(Math.random() * 23);
+
+      if (10 > k && k >= 0) { // Down
+        try {
+          n = y + 1;
+          if (!(x == m && n == y)) {
+            y = n;
+            n = n - 1;
+          }
+
+          grid[x][y] = new Tile(Type.UnknownLiquid);
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+      } else if (20 > k && k >= 10) { // Right
+        try {
+          m = x + 1;
+          if (!(x == m && n == y)) {
+            x = m;
+            m = m - 1;
+          }
+
+          grid[x][y] = new Tile(Type.UnknownLiquid);
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+      } else if (22 > k && k >= 20) { // Up
+
+      } else if (24 > k && k >= 22) { // Left
+
+      }
+    }
 
     for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
-				if (grid[i][j] == null) {
+        if (grid[i][j] == null) {
           if (Math.random() > .8) {
             grid[i][j] = new Tile(Type.UnknownSolid);
           } else {
             grid[i][j] = new Tile(Type.UnknownLiquid);
           }
-				}
+        }
 
         background.add(grid[i][j]);
       }
     }
 
-    int m = 0;
-    int n = 0;
-
     while (!grid[m][n].getType().equals(Type.End)) {
       switch ((int) (Math.round(Math.random()))) {
-        case 0: //Down
+        case 0: // Down
           try {
             if (grid[m + 1][n].getType().equals(Type.End)) {
               break;
@@ -91,7 +128,7 @@ public class GridPanel extends JPanel {
           }
 
           break;
-        case 3: //Up
+        case 3: // Up
           if (grid[m - 1][n].getType().equals(Type.End)) {
             break;
           }
@@ -104,7 +141,7 @@ public class GridPanel extends JPanel {
           }
 
           break;
-        case 2: //Left
+        case 2: // Left
           if (grid[m][n - 1].getType().equals(Type.End)) {
             break;
           }
@@ -117,7 +154,7 @@ public class GridPanel extends JPanel {
           }
 
           break;
-        case 1: //Right
+        case 1: // Right
           if (grid[m][n + 1].getType().equals(Type.End)) {
             break;
           }
@@ -133,10 +170,10 @@ public class GridPanel extends JPanel {
       }
     }
 
-		updateGrid();
-	}
+    updateGrid();
+  }
 
-	private void updateGrid() {
+  private void updateGrid() {
     int spacing = 80;
     int initialGap = 130;
     switch (gridSize) {
@@ -150,7 +187,7 @@ public class GridPanel extends JPanel {
         break;
     }
 
-  	for (int i = 0; i < gridSize; i++) {
+    for (int i = 0; i < gridSize; i++) {
       for (int j = 0; j < gridSize; j++) {
         grid[i][j].setBounds(initialGap + (spacing * i), initialGap + (spacing * j), 35, 35);
       }
