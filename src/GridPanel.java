@@ -231,11 +231,6 @@ public class GridPanel extends JPanel {
 
   private void exportMap() {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
-    try {
-      serializeMap();
-    } catch (IOException e) {
-
-    }
     JFileChooser fileChooser = new JFileChooser();
     fileChooser.setSelectedFile(new File("map.txt"));
     fileChooser.showSaveDialog(this);
