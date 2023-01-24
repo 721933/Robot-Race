@@ -46,7 +46,7 @@ public class Tile extends JLabel {
     try {
       this.setIcon(new javax.swing.ImageIcon(images.get(type)));
     } catch (IndexOutOfBoundsException e) {
-      e.printStackTrace();
+
     }
   }
 
@@ -67,42 +67,42 @@ public class Tile extends JLabel {
       Image image = ImageIO.read(new File("images/solid.png"));
       map.put(Type.Solid, image);
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     try {
       Image image = ImageIO.read(new File("images/liquid.png"));
       map.put(Type.Liquid, image);
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     try {
       Image image = ImageIO.read(new File("images/start.png"));
       map.put(Type.Start, image);
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     try {
       Image image = ImageIO.read(new File("images/end.png"));
       map.put(Type.End, image);
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     try {
       Image image = ImageIO.read(new File("images/unknown.png"));
       map.put(Type.UnknownSolid, image);
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     try {
       Image image = ImageIO.read(new File("images/unknown.png"));
       map.put(Type.UnknownLiquid, image);
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     return map;

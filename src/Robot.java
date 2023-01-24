@@ -22,7 +22,7 @@ public class Robot extends JLabel {
 		try {
 			this.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/robot.png"))));
 		} catch (IOException e) {
-			e.printStackTrace();
+
 		}
 	}
 
@@ -87,6 +87,14 @@ public class Robot extends JLabel {
 		return this.posY;
 	}
 
+	public void setPosX(int x) {
+		this.posX = x;
+	}
+
+	public void setPosY(int y) {
+		this.posY = y;
+	}
+
 	public void move() {
 		try {
 			if (walkedMap[posX][posY + 1] == false && localMap[posX][posY + 1] == true) {
@@ -103,7 +111,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+
 		}
 
 		try {
@@ -112,7 +120,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+
 		}
 
 		try {
@@ -121,43 +129,52 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
+
 		}
 
-		try {
-			if (localMap[posX][posY + 1] == true) {
-				moveDown();
-				return;
-			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
+		while (true) {
+			switch ((int) Math.round(Math.random() * 3)) {
+				case 0:
+					try {
+						if (localMap[posX][posY + 1] == true) {
+							moveDown();
+							return;
+						}
+					} catch (IndexOutOfBoundsException e) {
 
-		try {
-			if (localMap[posX + 1][posY] == true) {
-				moveRight();
-				return;
-			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
+					}
+					break;
+				case 1:
+					try {
+						if (localMap[posX + 1][posY] == true) {
+							moveRight();
+							return;
+						}
+					} catch (IndexOutOfBoundsException e) {
 
-		try {
-			if (localMap[posX - 1][posY] == true) {
-				moveLeft();
-				return;
-			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
-		}
+					}
+					break;
+				case 2:
+					try {
+						if (localMap[posX - 1][posY] == true) {
+							moveLeft();
+							return;
+						}
+					} catch (IndexOutOfBoundsException e) {
 
-		try {
-			if (localMap[posX][posY - 1] == true) {
-				moveUp();
-				return;
+					}
+					break;
+				case 3:
+					try {
+						if (localMap[posX][posY - 1] == true) {
+							moveUp();
+							return;
+						}
+					} catch (IndexOutOfBoundsException e) {
+
+					}
+					break;
 			}
-		} catch (IndexOutOfBoundsException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -198,14 +215,13 @@ public class Robot extends JLabel {
 	}
 
 	public void revealAround() {
-
 		try {
 			this.vision.getUp().reveal();
 			if (this.vision.getUp().getType() == Type.Liquid || this.vision.getUp().getType() == Type.End) {
 				localMap[posX][posY - 1] = true;
 			}
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+
 		}
 
 		try {
@@ -214,7 +230,7 @@ public class Robot extends JLabel {
 				localMap[posX - 1][posY] = true;
 			}
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+
 		}
 
 		try {
@@ -223,7 +239,7 @@ public class Robot extends JLabel {
 				localMap[posX + 1][posY] = true;
 			}
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+
 		}
 
 		try {
@@ -232,7 +248,7 @@ public class Robot extends JLabel {
 				localMap[posX][posY + 1] = true;
 			}
 		} catch (NullPointerException e) {
-			e.printStackTrace();
+
 		}
 	}
 

@@ -40,7 +40,7 @@ public class IntroPanel extends JPanel implements ActionListener {
 		try {
 			introText.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/introText.png"))));
 		} catch (IOException e) {
-			e.printStackTrace();
+
 		}
 
 		add(btn5x5);

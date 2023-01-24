@@ -2,9 +2,11 @@ import java.awt.Container;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Main {
   private static JFrame GUI = new JFrame();
@@ -30,7 +32,7 @@ public class Main {
     try {
       icon = ImageIO.read(new File("images/logo.png"));
     } catch (IOException e) {
-      e.printStackTrace();
+
     }
 
     GUI.setIconImage(icon);
@@ -41,6 +43,27 @@ public class Main {
     gridPanel = new GridPanel(gridSize);
 
     pane.add(gridPanel);
+
+    GUI.pack();
+  }
+
+  public static void removeGridPanel(GridPanel GridPanel, int steps) {
+    pane.remove(gridPanel);
+    JPanel outro = new JPanel();
+
+    pane.add(outro);
+
+    JLabel label = new JLabel();
+
+    outro.add(label);
+
+    label.setBounds(0, 0, 500, 500);
+
+    try {
+      label.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/outro.png"))));
+    } catch (IOException e) {
+
+    }
 
     GUI.pack();
   }
