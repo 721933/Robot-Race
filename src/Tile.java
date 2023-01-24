@@ -46,7 +46,7 @@ public class Tile extends JLabel {
     try {
       this.setIcon(new javax.swing.ImageIcon(images.get(type)));
     } catch (IndexOutOfBoundsException e) {
-
+      e.printStackTrace();
     }
   }
 

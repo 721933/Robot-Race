@@ -8,18 +8,21 @@ public class Robot extends JLabel {
 	private int posX = 0;
 	private int posY = 0;
 	private int steps = 0;
-	public boolean[][] localMap = new boolean[8][8];
-	public boolean[][] walkedMap = new boolean[8][8];
+	public boolean[][] localMap;
+	public boolean[][] walkedMap;
 	public Vision vision;
 
-	public Robot(Tile[][] globalMap) {
+	public Robot(Tile[][] globalMap, int gridSize) {
+		localMap = new boolean[gridSize][gridSize];
+		walkedMap = new boolean[gridSize][gridSize];
+
 		vision = new Vision(0, 0, globalMap);
 		walkedMap[posX][posY] = true;
 
 		try {
 			this.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/robot.png"))));
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -100,7 +103,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -109,7 +112,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -118,7 +121,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -127,7 +130,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -136,7 +139,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -145,7 +148,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
@@ -154,7 +157,7 @@ public class Robot extends JLabel {
 				return;
 			}
 		} catch (IndexOutOfBoundsException e) {
-
+			e.printStackTrace();
 		}
 	}
 
@@ -195,40 +198,41 @@ public class Robot extends JLabel {
 	}
 
 	public void revealAround() {
+
 		try {
 			this.vision.getUp().reveal();
-			if (this.vision.getUp().getType() == Type.Liquid) {
+			if (this.vision.getUp().getType() == Type.Liquid || this.vision.getUp().getType() == Type.End) {
 				localMap[posX][posY - 1] = true;
 			}
 		} catch (NullPointerException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
 			this.vision.getLeft().reveal();
-			if (this.vision.getLeft().getType() == Type.Liquid) {
+			if (this.vision.getLeft().getType() == Type.Liquid || this.vision.getLeft().getType() == Type.End) {
 				localMap[posX - 1][posY] = true;
 			}
 		} catch (NullPointerException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
 			this.vision.getRight().reveal();
-			if (this.vision.getRight().getType() == Type.Liquid) {
+			if (this.vision.getRight().getType() == Type.Liquid || this.vision.getRight().getType() == Type.End) {
 				localMap[posX + 1][posY] = true;
 			}
 		} catch (NullPointerException e) {
-
+			e.printStackTrace();
 		}
 
 		try {
 			this.vision.getDown().reveal();
-			if (this.vision.getDown().getType() == Type.Liquid) {
+			if (this.vision.getDown().getType() == Type.Liquid || this.vision.getDown().getType() == Type.End) {
 				localMap[posX][posY + 1] = true;
 			}
 		} catch (NullPointerException e) {
-
+			e.printStackTrace();
 		}
 	}
 
