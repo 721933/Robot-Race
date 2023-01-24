@@ -60,9 +60,9 @@ public class GridPanel extends JPanel {
               try {
                 importMap(robot);
               } catch (IOException f) {
-
+                f.printStackTrace();
               } catch (ClassNotFoundException f) {
-
+                f.printStackTrace();
               }
               break;
             case 83: // S (Save)
@@ -285,14 +285,14 @@ public class GridPanel extends JPanel {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
 
     JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setSelectedFile(new File("map.txt"));
+    fileChooser.setSelectedFile(new File("map.dat"));
     int retrival = fileChooser.showSaveDialog(this);
 
     if (retrival == JFileChooser.APPROVE_OPTION) {
       try {
         FileOutputStream fos = new FileOutputStream(fileChooser.getSelectedFile());
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(this.grid);
+        oos.writeObject(grid);
 
         oos.close();
       } catch (IOException e) {

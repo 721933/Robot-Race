@@ -1,9 +1,12 @@
 import java.awt.Container;
+import java.awt.Font;
+import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import javax.swing.JPanel;
-
+import javax.swing.SwingConstants;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -49,15 +52,19 @@ public class Main {
 
   public static void removeGridPanel(GridPanel GridPanel, int steps) {
     pane.remove(gridPanel);
+
     JPanel outro = new JPanel();
+    JLabel label = new JLabel();
+    JLabel stepsLabel = new JLabel();
 
     pane.add(outro);
-
-    JLabel label = new JLabel();
-
     outro.add(label);
+    outro.add(stepsLabel);
 
-    label.setBounds(0, 0, 500, 500);
+    GUI.setBounds(0, 0, 500, 500);
+    outro.setBackground(Color.ORANGE);
+    label.setBounds(0, 0, 500, 300);
+    stepsLabel.setBounds(0, 0, 500, 200);
 
     try {
       label.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/outro.png"))));
@@ -65,6 +72,20 @@ public class Main {
 
     }
 
-    GUI.pack();
+    stepsLabel.setText(String.valueOf(steps));
+    stepsLabel.setFont(new Font("Serif", Font.PLAIN, 72));
+    stepsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+    stepsLabel.setVerticalAlignment(SwingConstants.CENTER);
+
+    try {
+      File file = new File("results.txt");
+      FileWriter fw = new FileWriter(file);
+
+      fw.write("Results: \n" + steps + " steps were taken!");
+
+      fw.close();
+    } catch (IOException e) {
+
+    }
   }
 }

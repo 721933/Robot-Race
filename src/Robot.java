@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
@@ -26,7 +27,7 @@ public class Robot extends JLabel {
 		}
 	}
 
-	class Vision {
+	class Vision implements Serializable {
 		private Tile up;
 		private Tile left;
 		private Tile right;
