@@ -32,7 +32,7 @@ public class GridPanel extends JPanel {
     add(background);
     generateGrid();
 
-    Robot robot = new Robot(grid);
+    Robot robot = new Robot(grid, this.gridSize);
     updateRobot(robot);
     robot.revealAround();
 
@@ -56,22 +56,6 @@ public class GridPanel extends JPanel {
               break;
             case 79: // O
               exportMap();
-              break;
-            case 37:
-              robot.moveLeft();
-              robot.revealAround();
-              break;
-            case 38:
-              robot.moveUp();
-              robot.revealAround();
-              break;
-            case 39:
-              robot.moveDown();
-              robot.revealAround();
-              break;
-            case 40:
-              robot.moveRight();
-              robot.revealAround();
               break;
           }
         }
@@ -242,8 +226,6 @@ public class GridPanel extends JPanel {
   }
 
   public void updateRobot(Robot robot) {
-    System.out.println("X: " + robot.getPosX());
-    System.out.println("Y: " + robot.getPosY());
     grid[robot.getPosX()][robot.getPosY()].add(robot);
     robot.setBounds(0, 0, 35, 35);
     this.setVisible(false);
@@ -261,39 +243,22 @@ public class GridPanel extends JPanel {
   private void exportMap() {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
 
-    File file;
+    JFileChooser fileChooser = new JFileChooser();
+    fileChooser.setSelectedFile(new File("map.txt"));
+    int retrival = fileChooser.showSaveDialog(this);
 
-    try {
-      serializeMap();
+    if (retrival == JFileChooser.APPROVE_OPTION) {
+      try {
+        FileOutputStream fos = new FileOutputStream(fileChooser.getSelectedFile());
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this.grid);
 
-      // FileInputStream fis = new FileInputStream("map.txt");
-
-      String basePath = new File("").getAbsolutePath();
-
-      file = new File(basePath);
-    } catch (IOException e) {
-      return;
+        oos.close();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
     }
 
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setSelectedFile(file);
-    fileChooser.showSaveDialog(this);
-
-    // file.delete();
-
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeys);
-  }
-
-  private void serializeMap() throws IOException {
-    File file = new File("map.txt");
-    FileOutputStream fos = new FileOutputStream(file);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.writeObject(grid);
-
-    oos.close();
-  }
-
-  private void deserializeMap() {
-
   }
 }
