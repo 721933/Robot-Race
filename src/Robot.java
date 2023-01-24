@@ -86,21 +86,19 @@ public class Robot extends JLabel {
 
 	public void move() {
 		try {
-			System.out.println("predown");
 			if (walkedMap[posX][posY + 1] == false && localMap[posX][posY + 1] == true) {
 				moveDown();
-				System.out.println("down");
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
 
 		}
-		
+
 		try {
 			if (walkedMap[posX + 1][posY] == false && localMap[posX + 1][posY] == true) {
 				moveRight();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -108,8 +106,8 @@ public class Robot extends JLabel {
 		try {
 			if (walkedMap[posX - 1][posY] == false && localMap[posX - 1][posY] == true) {
 				moveLeft();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
 
 		}
@@ -117,46 +115,46 @@ public class Robot extends JLabel {
 		try {
 			if (walkedMap[posX][posY - 1] == false && localMap[posX][posY - 1] == true) {
 				moveUp();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
-			
+
 		}
 
 		try {
 			if (localMap[posX][posY + 1] == true) {
 				moveDown();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
-			
+
 		}
 
 		try {
 			if (localMap[posX + 1][posY] == true) {
 				moveRight();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
-			
+
 		}
 
 		try {
 			if (localMap[posX - 1][posY] == true) {
 				moveLeft();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
-			
+
 		}
 
 		try {
 			if (localMap[posX][posY - 1] == true) {
 				moveUp();
+				return;
 			}
-			return;
 		} catch (IndexOutOfBoundsException e) {
-			
+
 		}
 	}
 
