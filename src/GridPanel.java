@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -35,6 +36,8 @@ public class GridPanel extends JPanel {
     generateGrid();
 
     Robot robot = new Robot(grid);
+    updateRobot(robot);
+    robot.revealAround();
 
     gameKeys = new KeyEventDispatcher() {
       @Override
@@ -45,6 +48,10 @@ public class GridPanel extends JPanel {
               revealGrid();
               break;
             case 10: // Enter
+              grid[robot.getPosX()][robot.getPosY()].remove(robot);
+              robot.move();
+              updateRobot(robot);
+              robot.vision.updateMap(robot.getPosX(), robot.getPosY(), grid);
               robot.revealAround();
               break;
             case 83: // S
@@ -52,6 +59,22 @@ public class GridPanel extends JPanel {
               break;
             case 79: // O
               exportMap();
+              break;
+            case 37:
+              robot.moveLeft();
+              robot.revealAround();
+              break;
+            case 38:
+              robot.moveUp();
+              robot.revealAround(); 
+              break;
+            case 39:
+              robot.moveDown();
+              robot.revealAround();
+              break;
+            case 40:
+              robot.moveRight();
+              robot.revealAround();
               break;
           }
         }
@@ -221,6 +244,13 @@ public class GridPanel extends JPanel {
     }
   }
 
+  public void updateRobot(Robot robot) {
+    System.out.println("X: " + robot.getPosX());
+    System.out.println("Y: " + robot.getPosY());
+    grid[robot.getPosX()][robot.getPosY()].add(robot);
+    robot.setBounds(0, 0, 35, 35);
+  }
+
   private void importMap() {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
     JFileChooser fileChooser = new JFileChooser();
@@ -231,9 +261,27 @@ public class GridPanel extends JPanel {
 
   private void exportMap() {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
+
+    File file;
+
+    try {
+      serializeMap();
+
+      //FileInputStream fis = new FileInputStream("map.txt");
+
+      String basePath = new File("").getAbsolutePath();
+
+      file = new File(basePath);
+    } catch (IOException e) {
+      return;
+    }
+
     JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setSelectedFile(new File("map.txt"));
+    fileChooser.setSelectedFile(file);
     fileChooser.showSaveDialog(this);
+
+    //file.delete();
+
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeys);
   }
 

@@ -1,11 +1,26 @@
-import javax.swing.JPanel;
+import java.io.File;
+import java.io.IOException;
 
-public class Robot extends JPanel {
-	private static int steps = 0;
+import javax.imageio.ImageIO;
+import javax.swing.JLabel;
+
+public class Robot extends JLabel {
+	private int posX = 0;
+	private int posY = 0;
+	private int steps = 0;
+	public boolean[][] localMap = new boolean[8][8];
+	public boolean[][] walkedMap = new boolean[8][8];
 	public Vision vision;
 
 	public Robot(Tile[][] globalMap) {
 		vision = new Vision(0, 0, globalMap);
+		walkedMap[posX][posY] = true;
+
+		try {
+			this.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/robot.png"))));
+		} catch (IOException e) {
+
+		}
 	}
 
 	class Vision {
@@ -61,33 +76,165 @@ public class Robot extends JPanel {
 		}
 	}
 
+	public int getPosX() {
+		return this.posX;
+	}
+
+	public int getPosY() {
+		return this.posY;
+	}
+
 	public void move() {
-		steps++;
+		try {
+			System.out.println("predown");
+			if (walkedMap[posX][posY + 1] == false && localMap[posX][posY + 1] == true) {
+				moveDown();
+				System.out.println("down");
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+		
+		try {
+			if (walkedMap[posX + 1][posY] == false && localMap[posX + 1][posY] == true) {
+				moveRight();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
+		try {
+			if (walkedMap[posX - 1][posY] == false && localMap[posX - 1][posY] == true) {
+				moveLeft();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+
+		}
+
+		try {
+			if (walkedMap[posX][posY - 1] == false && localMap[posX][posY - 1] == true) {
+				moveUp();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+
+		try {
+			if (localMap[posX][posY + 1] == true) {
+				moveDown();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+
+		try {
+			if (localMap[posX + 1][posY] == true) {
+				moveRight();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+
+		try {
+			if (localMap[posX - 1][posY] == true) {
+				moveLeft();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+
+		try {
+			if (localMap[posX][posY - 1] == true) {
+				moveUp();
+			}
+			return;
+		} catch (IndexOutOfBoundsException e) {
+			
+		}
+	}
+
+	public void moveUp() {
+		if (localMap[posX][posY - 1] == true) {
+			posY--;
+			walkedMap[posX][posY] = true;
+
+			steps++;
+		}
+	}
+
+	public void moveDown() {
+		if (localMap[posX][posY + 1] == true) {
+			posY++;
+			walkedMap[posX][posY] = true;
+
+			steps++;
+		}
+	}
+
+	public void moveLeft() {
+		if (localMap[posX - 1][posY] == true) {
+			posX--;
+			walkedMap[posX][posY] = true;
+
+			steps++;
+		}
+	}
+
+	public void moveRight() {
+		if (localMap[posX + 1][posY] == true) {
+			posX++;
+			walkedMap[posX][posY] = true;
+
+			steps++;
+		}
 	}
 
 	public void revealAround() {
 		try {
 			this.vision.getUp().reveal();
+			if (this.vision.getUp().getType() == Type.Liquid) {
+				localMap[posX][posY - 1] = true;
+			}
 		} catch (NullPointerException e) {
 
 		}
 
 		try {
 			this.vision.getLeft().reveal();
+			if (this.vision.getLeft().getType() == Type.Liquid) {
+				localMap[posX - 1][posY] = true;
+			}
 		} catch (NullPointerException e) {
 
 		}
 
 		try {
 			this.vision.getRight().reveal();
+			if (this.vision.getRight().getType() == Type.Liquid) {
+				localMap[posX + 1][posY] = true;
+			}
 		} catch (NullPointerException e) {
 
 		}
 
 		try {
 			this.vision.getDown().reveal();
+			if (this.vision.getDown().getType() == Type.Liquid) {
+				localMap[posX][posY + 1] = true;
+			}
 		} catch (NullPointerException e) {
 
 		}
+	}
+
+	public int getSteps() {
+		return this.steps;
 	}
 }
