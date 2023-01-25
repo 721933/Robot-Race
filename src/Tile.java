@@ -20,6 +20,7 @@ public class Tile extends JLabel {
     setType(type);
   }
 
+  // Getters and Setters
   public int getxComp() {
     return xComp;
   }
@@ -50,7 +51,7 @@ public class Tile extends JLabel {
     }
   }
 
-  public void reveal() {
+  public void reveal() { // Reveal if unknown
     if (this.type.equals(Type.UnknownLiquid)) {
       setType(Type.Liquid);
     } else if (this.type.equals(Type.UnknownSolid)) {
@@ -60,7 +61,7 @@ public class Tile extends JLabel {
     return;
   }
 
-  private static HashMap<Type, Image> generateHashmap() {
+  private static HashMap<Type, Image> generateHashmap() { // Generate HashMap with images of all Tile Types
     HashMap<Type, Image> map = new HashMap<Type, Image>();
 
     try {

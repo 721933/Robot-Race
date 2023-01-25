@@ -38,7 +38,7 @@ public class GridPanel extends JPanel {
     updateRobot(robot);
     robot.revealAround();
 
-    gameKeys = new KeyEventDispatcher() {
+    gameKeys = new KeyEventDispatcher() { // Keyboard Layout for Game
       @Override
       public boolean dispatchKeyEvent(KeyEvent e) {
         if (KeyEvent.KEY_PRESSED == e.getID()) {
@@ -47,12 +47,12 @@ public class GridPanel extends JPanel {
               revealGrid();
               break;
             case 10: // Enter
-              grid[robot.getPosX()][robot.getPosY()].remove(robot);
-              robot.move();
-              updateRobot(robot);
-              robot.vision.updateMap(robot.getPosX(), robot.getPosY(), grid);
-              robot.revealAround();
-              if (grid[robot.getPosX()][robot.getPosY()].getType() == Type.End) {
+              grid[robot.getPosX()][robot.getPosY()].remove(robot); // Remove robot from tile
+              robot.move(); // Move Robot
+              updateRobot(robot); // Update Robot Position
+              robot.vision.updateMap(robot.getPosX(), robot.getPosY(), grid); // Update robot vision map
+              robot.revealAround(); // Reveal tiles around robot
+              if (grid[robot.getPosX()][robot.getPosY()].getType() == Type.End) { // Check if robot reached the end
                 Main.removeGridPanel(outer(), robot.getSteps());
               }
               break;
@@ -77,19 +77,19 @@ public class GridPanel extends JPanel {
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(gameKeys);
   }
 
-  public GridPanel outer() {
+  public GridPanel outer() { // Getter for GridPanel instance
     return GridPanel.this;
   }
 
   private void generateGrid() {
     grid[gridSize - 1][gridSize - 1] = new Tile(Type.End);
 
-    for (int i = 0; i < gridSize; i++) {
+    for (int i = 0; i < gridSize; i++) { // Loop through grid
       for (int j = 0; j < gridSize; j++) {
         if (grid[i][j] == null) {
-          if (Math.random() > .2) {
+          if (Math.random() > .2) { // Set about 80% of tiles to UnknownSolid
             grid[i][j] = new Tile(Type.UnknownSolid);
-          } else {
+          } else { // Set rest to UnknownLiquid
             grid[i][j] = new Tile(Type.UnknownLiquid);
           }
         }
@@ -103,10 +103,10 @@ public class GridPanel extends JPanel {
     int m = -1;
     int n = -1;
 
-    while (!grid[x][y].getType().equals(Type.End)) {
+    while (!grid[x][y].getType().equals(Type.End)) { // Generate path
       int k = (int) Math.round(Math.random() * 23);
 
-      if (10 > k && k >= 0) { // Down
+      if (10 > k && k >= 0) { // Down 10/24 Odds
         try {
           y = y + 1;
 
@@ -114,11 +114,11 @@ public class GridPanel extends JPanel {
             break;
           }
 
-          if (!(x == m && n == y)) {
+          if (!(x == m && n == y)) { // Check if position is the same as previous
             m = x;
             n = y;
 
-            grid[x][y].setType(Type.UnknownLiquid);
+            grid[x][y].setType(Type.UnknownLiquid); // Set to liquid
           } else {
             y = y - 1;
           }
@@ -126,7 +126,7 @@ public class GridPanel extends JPanel {
         } catch (IndexOutOfBoundsException e) {
           y = y - 1;
         }
-      } else if (20 > k && k >= 10) { // Right
+      } else if (20 > k && k >= 10) { // Right 10/24 Odds
         try {
           x = x + 1;
 
@@ -134,11 +134,11 @@ public class GridPanel extends JPanel {
             break;
           }
 
-          if (!(x == m && n == y)) {
+          if (!(x == m && n == y)) { // Check if position is the same as previous
             m = x;
             n = y;
 
-            grid[x][y].setType(Type.UnknownLiquid);
+            grid[x][y].setType(Type.UnknownLiquid); // Set to liquid
           } else {
             x = x - 1;
           }
@@ -146,7 +146,7 @@ public class GridPanel extends JPanel {
         } catch (IndexOutOfBoundsException e) {
           x = x - 1;
         }
-      } else if (22 > k && k >= 20) { // Up
+      } else if (22 > k && k >= 20) { // Up 2/24 Odds
         try {
           y = y - 1;
 
@@ -154,11 +154,11 @@ public class GridPanel extends JPanel {
             break;
           }
 
-          if (!(x == m && n == y)) {
+          if (!(x == m && n == y)) { // Check if position is the same as previous
             m = x;
             n = y;
 
-            grid[x][y].setType(Type.UnknownLiquid);
+            grid[x][y].setType(Type.UnknownLiquid); // Set to liquid
           } else {
             y = y + 1;
           }
@@ -166,7 +166,7 @@ public class GridPanel extends JPanel {
         } catch (IndexOutOfBoundsException e) {
           y = y + 1;
         }
-      } else if (24 > k && k >= 22) { // Left
+      } else if (24 > k && k >= 22) { // Left 2/24 Odds
         try {
           x = x - 1;
 
@@ -174,11 +174,11 @@ public class GridPanel extends JPanel {
             break;
           }
 
-          if (!(x == m && n == y)) {
+          if (!(x == m && n == y)) { // Check if position is the same as previous
             m = x;
             n = y;
 
-            grid[x][y].setType(Type.UnknownLiquid);
+            grid[x][y].setType(Type.UnknownLiquid); // Set to liquid
           } else {
             x = x + 1;
           }
@@ -209,7 +209,7 @@ public class GridPanel extends JPanel {
     }
 
     for (int i = 0; i < gridSize; i++) {
-      for (int j = 0; j < gridSize; j++) {
+      for (int j = 0; j < gridSize; j++) { // Loop through grid and set bounds for each tile
         grid[i][j].setBounds(initialGap + (spacing * i), initialGap + (spacing * j), 35, 35);
       }
     }
@@ -218,7 +218,7 @@ public class GridPanel extends JPanel {
   private JLabel background() {
     JLabel background = new JLabel();
 
-    try {
+    try { // Set background
       background.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/background.png"))));
     } catch (IOException e) {
 
@@ -229,10 +229,10 @@ public class GridPanel extends JPanel {
 
   private void revealGrid() {
     for (int i = 0; i < gridSize; i++) {
-      for (int j = 0; j < gridSize; j++) {
-        if (grid[i][j].getType().equals(Type.UnknownSolid)
+      for (int j = 0; j < gridSize; j++) { // Loop through grid
+        if (grid[i][j].getType().equals(Type.UnknownSolid) // If Unknown
             || grid[i][j].getType().equals(Type.UnknownLiquid)) {
-          grid[i][j].reveal();
+          grid[i][j].reveal(); // Reveal
         }
       }
 
@@ -241,15 +241,15 @@ public class GridPanel extends JPanel {
   }
 
   private void resetRobot(Robot robot) {
-    robot.setPosX(0);
+    robot.setPosX(0); // Reset coords to (0,0)
     robot.setPosY(0);
     updateRobot(robot);
   }
 
   public void updateRobot(Robot robot) {
-    grid[robot.getPosX()][robot.getPosY()].add(robot);
+    grid[robot.getPosX()][robot.getPosY()].add(robot); // Update robot position
     robot.setBounds(0, 0, 35, 35);
-    this.setVisible(false);
+    this.setVisible(false); // Refresh Container
     this.setVisible(true);
   }
 
@@ -257,19 +257,19 @@ public class GridPanel extends JPanel {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
     Object obj = null;
 
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
-    int retrival = fileChooser.showOpenDialog(this);
+    JFileChooser fileChooser = new JFileChooser(); // Create JFileChoser
+    fileChooser.setCurrentDirectory(new File(System.getProperty("user.home"))); // Set Directory
+    int retrival = fileChooser.showOpenDialog(this); // Open Dialog Box
 
     if (retrival == JFileChooser.APPROVE_OPTION) {
       FileInputStream fis = new FileInputStream(fileChooser.getSelectedFile());
       ObjectInputStream ois = new ObjectInputStream(fis);
       obj = ois.readObject();
-      ois.close();
+      ois.close(); // Deserialize File
     }
 
     if (obj instanceof Tile[][]) {
-      Tile[][] tempGrid = (Tile[][]) obj;
+      Tile[][] tempGrid = (Tile[][]) obj; // Convert to grid
 
       if (tempGrid.length == this.grid.length) {
         this.grid = tempGrid;
@@ -284,9 +284,9 @@ public class GridPanel extends JPanel {
   private void exportMap() {
     KeyboardFocusManager.setCurrentKeyboardFocusManager(new DefaultKeyboardFocusManager());
 
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setSelectedFile(new File("map.dat"));
-    int retrival = fileChooser.showSaveDialog(this);
+    JFileChooser fileChooser = new JFileChooser(); // Create JFileChooser
+    fileChooser.setSelectedFile(new File("map.dat")); // Create File
+    int retrival = fileChooser.showSaveDialog(this); // Open Dialog Box
 
     if (retrival == JFileChooser.APPROVE_OPTION) {
       try {
@@ -294,7 +294,7 @@ public class GridPanel extends JPanel {
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(grid);
 
-        oos.close();
+        oos.close(); // Serialize Object
       } catch (IOException e) {
 
       }

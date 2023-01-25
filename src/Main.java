@@ -17,13 +17,13 @@ public class Main {
   private static GridPanel gridPanel;
 
   public static void main(String[] args) {
-    GUI.setTitle("Robot Race");
+    GUI.setTitle("Robot Race"); // Set GUI elements
     GUI.setSize(500, 400);
     GUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     setIcon(GUI);
 
-    IntroPanel introPanel = new IntroPanel();
+    IntroPanel introPanel = new IntroPanel(); // Add IntroPanel
     pane.add(introPanel);
 
     GUI.setVisible(true);
@@ -32,7 +32,7 @@ public class Main {
   private static void setIcon(JFrame GUI) {
     Image icon = null;
 
-    try {
+    try { // Set Program Image
       icon = ImageIO.read(new File("images/logo.png"));
     } catch (IOException e) {
 
@@ -41,23 +41,23 @@ public class Main {
     GUI.setIconImage(icon);
   }
 
-  public static void removeIntroPanel(IntroPanel introPanel, int gridSize) {
+  public static void removeIntroPanel(IntroPanel introPanel, int gridSize) { // Remove IntroPanel
     pane.remove(introPanel);
-    gridPanel = new GridPanel(gridSize);
+    gridPanel = new GridPanel(gridSize); // Add GridPanel
 
     pane.add(gridPanel);
 
     GUI.pack();
   }
 
-  public static void removeGridPanel(GridPanel GridPanel, int steps) {
+  public static void removeGridPanel(GridPanel GridPanel, int steps) { // Remove GridPanel
     pane.remove(gridPanel);
 
     JPanel outro = new JPanel();
     JLabel label = new JLabel();
     JLabel stepsLabel = new JLabel();
 
-    pane.add(outro);
+    pane.add(outro); // Add outro elements
     outro.add(label);
     outro.add(stepsLabel);
 
@@ -72,13 +72,13 @@ public class Main {
 
     }
 
-    stepsLabel.setText(String.valueOf(steps));
+    stepsLabel.setText(String.valueOf(steps)); // Add steps
     stepsLabel.setFont(new Font("Serif", Font.PLAIN, 72));
     stepsLabel.setHorizontalAlignment(SwingConstants.CENTER);
     stepsLabel.setVerticalAlignment(SwingConstants.CENTER);
 
     try {
-      File file = new File("results.txt");
+      File file = new File("results.txt"); // Create file with steps
       FileWriter fw = new FileWriter(file);
 
       fw.write("Results: \n" + steps + " steps were taken!");

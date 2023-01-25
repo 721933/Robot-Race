@@ -39,25 +39,25 @@ public class Robot extends JLabel {
 
 		public void updateMap(int positionX, int positionY, Tile[][] globalMap) {
 			try {
-				this.up = globalMap[positionX][positionY - 1];
+				this.up = globalMap[positionX][positionY - 1]; // Get Tile Above Robot
 			} catch (IndexOutOfBoundsException e) {
 				this.up = null;
 			}
 
 			try {
-				this.down = globalMap[positionX][positionY + 1];
+				this.down = globalMap[positionX][positionY + 1]; // Get Tile Below Robot
 			} catch (IndexOutOfBoundsException e) {
 				this.down = null;
 			}
 
 			try {
-				this.left = globalMap[positionX - 1][positionY];
+				this.left = globalMap[positionX - 1][positionY]; // Get Tile To the Left of Robot
 			} catch (IndexOutOfBoundsException e) {
 				this.left = null;
 			}
 
 			try {
-				this.right = globalMap[positionX + 1][positionY];
+				this.right = globalMap[positionX + 1][positionY]; // Get Tile To The Right of Robot
 			} catch (IndexOutOfBoundsException e) {
 				this.right = null;
 			}
@@ -97,6 +97,8 @@ public class Robot extends JLabel {
 	}
 
 	public void move() {
+		// First check if robot can see any tiles that have not been walked on
+		// If it can move there
 		try {
 			if (walkedMap[posX][posY + 1] == false && localMap[posX][posY + 1] == true) {
 				moveDown();
@@ -133,7 +135,7 @@ public class Robot extends JLabel {
 
 		}
 
-		while (true) {
+		while (true) { // If not randomly pick a direction to go
 			switch ((int) Math.round(Math.random() * 3)) {
 				case 0:
 					try {
@@ -179,7 +181,7 @@ public class Robot extends JLabel {
 		}
 	}
 
-	public void moveUp() {
+	public void moveUp() { // Move Robot Up
 		if (localMap[posX][posY - 1] == true) {
 			posY--;
 			walkedMap[posX][posY] = true;
@@ -188,7 +190,7 @@ public class Robot extends JLabel {
 		}
 	}
 
-	public void moveDown() {
+	public void moveDown() { // Move Robot Down
 		if (localMap[posX][posY + 1] == true) {
 			posY++;
 			walkedMap[posX][posY] = true;
@@ -197,7 +199,7 @@ public class Robot extends JLabel {
 		}
 	}
 
-	public void moveLeft() {
+	public void moveLeft() { // Move Robot Left
 		if (localMap[posX - 1][posY] == true) {
 			posX--;
 			walkedMap[posX][posY] = true;
@@ -206,7 +208,7 @@ public class Robot extends JLabel {
 		}
 	}
 
-	public void moveRight() {
+	public void moveRight() { // Move Robot Right
 		if (localMap[posX + 1][posY] == true) {
 			posX++;
 			walkedMap[posX][posY] = true;
@@ -215,7 +217,7 @@ public class Robot extends JLabel {
 		}
 	}
 
-	public void revealAround() {
+	public void revealAround() { // Reveal Tiles around Robot
 		try {
 			this.vision.getUp().reveal();
 			if (this.vision.getUp().getType() == Type.Liquid || this.vision.getUp().getType() == Type.End) {
