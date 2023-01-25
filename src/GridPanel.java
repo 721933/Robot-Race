@@ -215,7 +215,7 @@ public class GridPanel extends JPanel {
     }
   }
 
-  private static JLabel background() {
+  private JLabel background() {
     JLabel background = new JLabel();
 
     try {
