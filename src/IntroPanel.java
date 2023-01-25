@@ -60,7 +60,9 @@ public class IntroPanel extends JPanel implements ActionListener {
 
 		if (s.equals("Controls")) {
 
-			JOptionPane.showMessageDialog(this, "Message for the dialog box goes here.", "Controls Information",
+			JOptionPane.showMessageDialog(this,
+					"[Spacebar]: Reveal Map\n [Enter]: Move Robot \n [S]: Save Map\n [O]: Open Map",
+					"Controls Information",
 					JOptionPane.INFORMATION_MESSAGE);
 
 			return;
