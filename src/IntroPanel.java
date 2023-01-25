@@ -18,7 +18,7 @@ public class IntroPanel extends JPanel implements ActionListener {
 		this.setBackground(Color.BLUE);
 		this.setBounds(0, 0, 500, 700);
 
-		JButton btn5x5 = new JButton();
+		JButton btn5x5 = new JButton(); // Add Elements
 		JButton btn10x10 = new JButton();
 		JButton btn15x15 = new JButton();
 		JButton controls = new JButton();
@@ -39,7 +39,7 @@ public class IntroPanel extends JPanel implements ActionListener {
 
 		try {
 			introText.setIcon(new javax.swing.ImageIcon(ImageIO.read(new File("images/introText.png"))));
-		} catch (IOException e) {
+		} catch (IOException e) { // Set Icon
 
 		}
 
@@ -60,7 +60,7 @@ public class IntroPanel extends JPanel implements ActionListener {
 
 		if (s.equals("Controls")) {
 
-			JOptionPane.showMessageDialog(this,
+			JOptionPane.showMessageDialog(this, // Dialog Box for Controls
 					"[Spacebar]: Reveal Map\n [Enter]: Move Robot \n [S]: Save Map\n [O]: Open Map",
 					"Controls Information",
 					JOptionPane.INFORMATION_MESSAGE);
@@ -68,7 +68,7 @@ public class IntroPanel extends JPanel implements ActionListener {
 			return;
 		}
 
-		if (s.equals("5 x 5")) {
+		if (s.equals("5 x 5")) { // If grid size button is clicked
 			gridSize = 5;
 		} else if (s.equals("10 x 10")) {
 			gridSize = 10;
